@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Update Order Status</title>
+    <link rel="stylesheet" href="path/to/your/css/styles.css">
+    <!-- Add other head elements and styles as needed -->
+</head>
+
+<body>
+
+    <header>
+        <!-- Navigation bar, logo, etc. -->
+    </header>
+
+    <main>
+        <section class="admin-section">
+            <h1>Update Order Status</h1>
+            <form id="adminForm">
+                <label for="orderNumberAdmin">Order Number:</label>
+                <input type="text" id="orderNumberAdmin" required>
+
+                <label for="orderStatus">Order Status:</label>
+                <select id="orderStatus">
+                    <option value="processing">Processing</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="out for delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                </select>
+
+                <button type="submit">Update Status</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Footer content, links, etc. -->
+    </footer>
+
+    <script src="path/to/your/js/admin-scripts.js"></script>
+    <!-- Add other scripts, such as jQuery or AJAX scripts here -->
+
+</body>
+
+</html>

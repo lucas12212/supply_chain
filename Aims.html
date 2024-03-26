@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Inventory Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+        <h1>Dashboard</h1>
+
+        <!-- Sales Chart Container -->
+        <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+        </div>
+        <!-- Add more graphical components or summaries here -->
+    </section>
+
+    <!-- Demand Forecasting Section -->
+    <section id="demand-forecasting">
+        <h2>Demand Forecasting</h2>
+        <label for="data-upload">Upload Historical Sales Data:</label>
+        <input type="file" id="data-upload">
+
+        <!-- Visualization -->
+        <div id="forecast-chart"></div>
+
+        <!-- Adjustment Tool -->
+        <div id="adjustment-tool">
+            <!-- Implement tools or controls for adjustments here -->
+        </div>
+    </section>
+
+    <!-- Reorder Point Calculation Section -->
+    <section id="reorder-point">
+        <h2>Reorder Point Calculation</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Current Stock</th>
+                    <th>Reorder Point</th>
+                    <th>Lead Time</th>
+                    <th>Safety Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will go here -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Safety Stock Level Setting Section -->
+    <section id="safety-stock">
+        <h2>Safety Stock Level Setting</h2>
+        <label for="service-level">Service Level:</label>
+        <input type="number" id="service-level" min="0" max="100">
+
+        <label for="lead-time-variability">Lead Time Variability:</label>
+        <input type="number" id="lead-time-variability">
+
+        <label for="demand-variability">Demand Variability:</label>
+        <input type="number" id="demand-variability">
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+
+
+    <!-- Chart Initialization Script -->
+    <script>
+
+        $(document).ready(function () {
+            // Sample data (replace with your actual data from backend/API)
+            let salesData = {
+                labels: ['January', 'February', 'March', 'April'],
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: [100, 150, 125, 180], // Example data
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            let ctx = document.getElementById('salesChart').getContext('2d');
+            let salesChart = new Chart(ctx, {
+                type: 'line',
+                data: salesData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Future integration: Fetching data from the server for the chart.
+            $.ajax({
+                url: 'api/sellerend.php',  // Change this to the appropriate path
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    console.log("Success response:", response);
+
+                    // Update your chart data with the response
+                    salesChart.data.labels = response.labels;
+                    salesChart.data.datasets[0].data = response.sales;
+                    salesChart.update();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching sales data:', textStatus, errorThrown);
+                }
+            });
+        })
+
+    </script>
+
+</body>
+
+</html>
