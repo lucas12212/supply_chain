@@ -15,21 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 // Connect to the database
-$conn = new PDO('mysql:host=127.0.0.1;port=3306;dbname=e-commerce_websitev2', 'root', '');
+$conn = new PDO('mysql:host=127.0.0.1;port=3306;dbname=e-commerce_websitev2', 'root', 'root');
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST':        
-        $data = json_decode(file_get_contents('php://input'), true);
+    case 'GET':
         // Initialize the query to extract product data
-        $queryStr = "SELECT product_id, product_cost, stocks_left, no_reviews, avg_rating FROM product_table WHERE product_id = ?";
+        $queryStr = "SELECT product_id, product_cost, stocks_left, no_reviews, avg_rating FROM product_table";
         $query = $conn->prepare($queryStr);
-        $query->execute([$data["product_id"]]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode([
-            'product' => $result
+            'products' => $result
         ]);
         break;
 }
